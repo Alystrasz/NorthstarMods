@@ -1015,6 +1015,7 @@ void function OnServerSelected_Threaded( var button )
 		{
 			print( format("Required mod \"%s\" is locally there but disabled, enabling it.", modName) )
 			NSSetModEnabled( modName, true )
+			NSAllowRemoteMod( modName )
 			downloadedMods++
 			continue
 		}
@@ -1083,6 +1084,7 @@ void function OnServerSelected_Threaded( var button )
 				if ( result == "OK" )
 				{
 					downloadedMods++
+					NSAllowRemoteMod( modName )
 					continue
 				}
 
@@ -1171,6 +1173,7 @@ void function OnServerSelected_Threaded( var button )
 	if ( downloadedMods > 0 )
 	{
 		print("Some new mods have been downloaded or enabled, reloading mods.")
+		NSSetAllowedRemoteMods();
 		NSReloadMods(true, true);
 	}
 
