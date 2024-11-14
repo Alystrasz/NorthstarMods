@@ -128,7 +128,7 @@ void function UpdatePrivateMatchModesAndMaps()
 
 		filterArguments.filterMaps.append( map )
 
-		string localized = GetMapDisplayName( map )
+		string localized = ServerBrowser_GetMapDisplayName( map )
 		Hud_DialogList_AddListItem( Hud_GetChild( file.menu, "SwtBtnSelectMap" ) , localized, string( enum_ + 1 ) )
 	}
 
@@ -779,7 +779,7 @@ void function FilterServerList()
 		{	
 			array<string> sName
 			sName.append( server.name.tolower() )
-			sName.append( Localize( GetMapDisplayName( server.map ) ).tolower() )
+			sName.append( Localize( ServerBrowser_GetMapDisplayName( server.map ) ).tolower() )
 			sName.append( server.map.tolower() )
 			sName.append( server.playlist.tolower() )
 			sName.append( Localize( server.playlist ).tolower() )
@@ -835,7 +835,7 @@ void function UpdateShownPage()
 		Hud_SetVisible( file.serversProtected[ i ], server.requiresPassword )
 		Hud_SetText( file.serversName[ i ], server.name )
 		Hud_SetText( file.playerCountLabels[ i ], format( "%i/%i", server.playerCount, server.maxPlayerCount ) )
-		Hud_SetText( file.serversMap[ i ], GetMapDisplayName( server.map ) )
+		Hud_SetText( file.serversMap[ i ], ServerBrowser_GetMapDisplayName( server.map ) )
 		Hud_SetText( file.serversGamemode[ i ], GetGameModeDisplayName( server.playlist ) )
 		Hud_SetText( file.serversRegion[ i ], server.region )
 	}
@@ -921,7 +921,7 @@ void function DisplayFocusedServerInfo( int scriptID )
 	Hud_SetVisible( Hud_GetChild( menu, "NextMapBack" ), true )
 	RuiSetImage( Hud_GetRui( Hud_GetChild( menu, "NextMapImage" ) ), "basicImage", GetMapImageForMapName( map ) )
 	Hud_SetVisible( Hud_GetChild( menu, "NextMapName" ), true )
-	Hud_SetText( Hud_GetChild( menu, "NextMapName" ), GetMapDisplayName( map ) )
+	Hud_SetText( Hud_GetChild( menu, "NextMapName" ), ServerBrowser_GetMapDisplayName( map ) )
 	Hud_SetVisible( Hud_GetChild( menu, "ServerName" ), true )
 	Hud_SetText( Hud_GetChild( menu, "ServerName" ), server.name )
 

@@ -7,6 +7,8 @@ global function InitPrivateMatchMenu
 global function HandleLockedCustomMenuItem
 global function GetMapImageForMapName
 
+global function ServerBrowser_GetMapDisplayName
+
 struct
 {
 	var menu
@@ -140,6 +142,75 @@ void function MenuPrivateMatch_Init()
 	AddUICallback_OnLevelInit( OnPrivateLobbyLevelInit )
 }
 
+
+//////////////////////////////////////
+// Custom map display
+//////////////////////////////////////
+const array<string> officialMaps = [
+	"mp_forwardbase_kodai",
+	"mp_grave",
+	"mp_homestead",
+	"mp_thaw",
+	"mp_black_water_canal",
+	"mp_eden",
+	"mp_drydock",
+	"mp_crashsite3",
+	"mp_complex3",
+	"mp_angel_city",
+	"mp_colony02",
+	"mp_glitch",
+	"mp_lf_stacks",
+	"mp_lf_meadow",
+	"mp_lf_deck",
+	"mp_lf_traffic",
+	"mp_coliseum",
+	"mp_coliseum_column",
+	"mp_relic02",
+	"mp_wargames",
+	"mp_rise",
+	"mp_lf_township",
+	"mp_lf_uma",
+
+	// sp maps
+	"sp_training",
+	"sp_crashsite",
+	"sp_sewers1",
+	"sp_boomtown_start",
+	"sp_hub_timeshift",
+	"sp_beacon",
+	"sp_tday",
+	"sp_s2s",
+	"sp_skyway_v1",
+
+	// mp converted variants
+	"mp_training",
+	"mp_crashsite",
+	"mp_sewers1",
+	"mp_boomtown_start",
+	"mp_hub_timeshift",
+	"mp_beacon",
+	"mp_tday",
+	"mp_s2s",
+	"mp_skyway_v1"
+]
+
+string function ServerBrowser_GetMapDisplayName( string mapname )
+{
+	if ( officialMaps.contains( mapname) )
+	{
+		return Localize( "#" + mapname )
+	}
+	else
+	{
+		// strip-off "mp_" prefix
+		string name = mapname.slice( 3 )
+
+		// uppercase first letter
+		return name.slice( 0, 1 ).toupper() + name.slice( 1 )
+	}
+	unreachable
+}
+
 asset function GetMapImageForMapName( string mapName )
 {
 	if ( mapName in mapImages )
@@ -149,6 +220,9 @@ asset function GetMapImageForMapName( string mapName )
 	// pain
 	return expect asset ( compilestring( "return $\"loadscreens/" + mapName + "_lobby\"" )() )
 }
+
+//////////////////////////////////////
+//////////////////////////////////////
 
 
 void function InitPrivateMatchMenu()
