@@ -215,6 +215,9 @@ asset function GetMapImageForMapName( string mapName )
 {
 	if ( mapName in mapImages )
 		return mapImages[mapName]
+
+	// todo: check if local atlas has a loadscreen before returning default image
+	return $"rui/menu/main_menu/spotlight_21"
 		
 	// no way to convert string => asset for dynamic stuff so
 	// pain
