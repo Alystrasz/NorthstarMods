@@ -93,7 +93,7 @@ const table<asset> mapImages =
 	mp_rise = $"loadscreens/mp_rise_lobby",
 	mp_lf_township = $"loadscreens/mp_lf_township_lobby",
 	mp_lf_uma = $"loadscreens/mp_lf_uma_lobby",
-	
+
 	// not really sure if this should be here, whatever
 	// might be good to make this modular in the future?
 	sp_training = $"rui/menu/level_select/level_image1",
@@ -116,6 +116,9 @@ const table<asset> mapImages =
 	mp_tday = $"rui/menu/level_select/level_image7",
 	mp_s2s = $"rui/menu/level_select/level_image8",
 	mp_skyway_v1 = $"rui/menu/level_select/level_image9",
+
+	// lobby
+	mp_lobby = $"rui/menu/main_menu/spotlight_02"
 }
 
 void function MenuPrivateMatch_Init()
@@ -218,7 +221,7 @@ asset function GetMapImageForMapName( string mapName )
 
 	// todo: check if local atlas has a loadscreen before returning default image
 	return $"rui/menu/main_menu/spotlight_21"
-		
+
 	// no way to convert string => asset for dynamic stuff so
 	// pain
 	return expect asset ( compilestring( "return $\"loadscreens/" + mapName + "_lobby\"" )() )
@@ -702,17 +705,17 @@ function UpdateLobby()
 		int numPlaylistOverrides = GetPlaylistVarOverridesCount()
 		string playlistOverridesDesc = ""
 		for ( int varIdx = 0; varIdx < numPlaylistOverrides; ++varIdx )
-		{	
+		{
 			// temp fix for playlistoverrides that aren't handled by private match
 			string varName = GetPlaylistVarOverrideNameByIndex( varIdx )
-			
+
 			if ( varName in MatchSettings_PlaylistVarLabels )
 			{
 				float varOrigVal = float( GetCurrentPlaylistGamemodeByIndexVar( gamemodeIdx, varName, false ) )
 				float varOverrideVal = float( GetCurrentPlaylistGamemodeByIndexVar( gamemodeIdx, varName, true ) )
 				if ( varOrigVal == varOverrideVal ) // stuff seems to break outside of northstar servers since we dont always use private_match playlist
 					continue
-	
+
 				string label = Localize( MatchSettings_PlaylistVarLabels[varName] ) + ": "
 				string value = MatchSettings_FormatPlaylistVarValue( varName, varOverrideVal )
 				playlistOverridesDesc = playlistOverridesDesc + label + "`2" + value + " `0\n"
@@ -720,7 +723,7 @@ function UpdateLobby()
 			else
 			{
 				bool shouldBreak = false
-				
+
 				foreach ( string category in GetPrivateMatchSettingCategories( true ) )
 				{
 					foreach ( CustomMatchSettingContainer setting in GetPrivateMatchCustomSettingsForCategory( category ) )
@@ -731,12 +734,12 @@ function UpdateLobby()
 								playlistOverridesDesc += Localize( setting.localizedName ) + ": `2" + Localize( setting.enumNames[ setting.enumValues.find( expect string ( GetCurrentPlaylistVar( varName ) ) ) ] ) + "`0\n"
 							else
 								playlistOverridesDesc += Localize( setting.localizedName ) + ": `2" + GetCurrentPlaylistVar( varName ) + "`0\n"
-							
+
 							shouldBreak = true
 							break
 						}
 					}
-					
+
 					if ( shouldBreak )
 						break
 				}
