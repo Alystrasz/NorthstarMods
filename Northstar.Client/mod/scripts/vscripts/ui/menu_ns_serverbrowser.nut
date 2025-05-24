@@ -779,7 +779,7 @@ void function FilterServerList()
 		{	
 			array<string> sName
 			sName.append( server.name.tolower() )
-			sName.append( Localize( ServerBrowser_GetMapDisplayName( server.map ) ).tolower() )
+			sName.append( ServerBrowser_GetMapDisplayName( server.map ).tolower() )
 			sName.append( server.map.tolower() )
 			sName.append( server.playlist.tolower() )
 			sName.append( Localize( server.playlist ).tolower() )
